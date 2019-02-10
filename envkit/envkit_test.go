@@ -26,13 +26,16 @@ func TestSet(t *testing.T) {
 
 func TestGetString(t *testing.T) {
 	os.Setenv("some-key", "some-value")
-	s, success := GetString("some-key", "default-value")
+	defer os.Clearenv()
 
+	s, success := GetString("some-key", "default-value")
 	FatalIf(t, s != "some-value" || !success, "wrong return")
 }
 
 func TestGetString_WrongKey(t *testing.T) {
 	s, success := GetString("wrong-key", "default-value")
+	defer os.Clearenv()
+
 	FatalIf(t, s != "default-value" || success, "wrong return")
 }
 
@@ -43,15 +46,17 @@ func TestGetInt_WrongKey(t *testing.T) {
 
 func TestGetInt(t *testing.T) {
 	os.Setenv("some-key", "8888")
-	i, success := GetInt("some-key", 9999)
+	defer os.Clearenv()
 
+	i, success := GetInt("some-key", 9999)
 	FatalIf(t, i != 8888 || !success, "wrong return")
 }
 
 func TestGetInt_NaN(t *testing.T) {
 	os.Setenv("some-key", "nan")
-	i, success := GetInt("some-key", 9999)
+	defer os.Clearenv()
 
+	i, success := GetInt("some-key", 9999)
 	FatalIf(t, i != 9999 || success, "wrong return")
 }
 
@@ -64,21 +69,24 @@ func TestGetSlice_WrongKey(t *testing.T) {
 
 func TestGetSlice(t *testing.T) {
 	os.Setenv("some-key", "3,4,5")
+	defer os.Clearenv()
+
 	slice, success := GetSlice("some-key", ",", []string{"1", "2"})
 	FatalIf(t, !reflect.DeepEqual(slice, []string{"3", "4", "5"}) || !success, "return wrong")
-
 }
 
 func TestGetBool(t *testing.T) {
 	os.Setenv("some-key", "t")
-	i, success := GetBool("some-key", true)
+	defer os.Clearenv()
 
+	i, success := GetBool("some-key", true)
 	FatalIf(t, i != true || !success, "wrong return")
 }
 
 func TestGetBool_WrongKey(t *testing.T) {
 	os.Setenv("some-key", "x")
-	i, success := GetBool("some-key", true)
+	defer os.Clearenv()
 
+	i, success := GetBool("some-key", true)
 	FatalIf(t, i != true || success, "wrong return")
 }
