@@ -6,6 +6,14 @@ import (
 	"strings"
 )
 
+func Set(env map[string]string) (err error) {
+	for key, value := range env {
+		err = os.Setenv(key, value)
+	}
+
+	return
+}
+
 func GetString(key, defaultValue string) (val string, success bool) {
 	s := os.Getenv(key)
 	if len(s) > 0 {

@@ -8,6 +8,22 @@ import (
 	. "github.com/BaritoLog/go-boilerplate/testkit"
 )
 
+func TestSet(t *testing.T) {
+	env := map[string]string{
+		"Foo":   "Bar",
+		"Hello": "World",
+	}
+	Set(env)
+	defer os.Clearenv()
+
+	for key, value := range env {
+		s := os.Getenv(key)
+		if value != s {
+			t.Fatalf("'%s': want '%s' but got '%s'", key, value, s)
+		}
+	}
+}
+
 func TestGetString(t *testing.T) {
 	os.Setenv("some-key", "some-value")
 	s, success := GetString("some-key", "default-value")
