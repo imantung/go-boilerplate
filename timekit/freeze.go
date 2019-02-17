@@ -3,7 +3,7 @@ package timekit
 import (
 	"time"
 
-	"github.com/bouk/monkey"
+	"bou.ke/monkey"
 )
 
 var (

@@ -1,8 +1,8 @@
 package saramatestkit
 
 import (
+	"bou.ke/monkey"
 	"github.com/Shopify/sarama"
-	"github.com/bouk/monkey"
 )
 
 func PatchNewClient(client sarama.Client, err error) *monkey.PatchGuard {
